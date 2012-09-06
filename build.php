@@ -43,7 +43,39 @@ $project->main = function($tag = 'master', $label = '1.0') use ($project) {
 	$dir52n = "NetteFramework-{$label}-PHP5.2-nonprefix";
 	$distDir = "dist/" . substr($label, 0, 3);
 
-	$project->exportGit($dir53, $tag);
+	// export git
+	$project->delete($dir53);
+	$project->gitClone('git://github.com/nette/nette.git', $tag, $dir53);
+	$project->gitClone('git://github.com/nette/examples.git', $tag, "$dir53/examples");
+	$project->gitClone('git://github.com/nette/sandbox.git', $tag, "$dir53/sandbox");
+	$project->gitClone('git://github.com/nette/tools.git', NULL, "$dir53/tools");
+
+	if (PHP_OS === 'WINNT') {
+		$project->exec("attrib -H $dir53\.htaccess* /s /d");
+		$project->exec("attrib -R $dir53\* /s /d");
+	}
+
+	// create history.txt, version.txt
+	$project->git("log -n 500 --pretty=\"%cd (%h): %s\" --date-order --date=short > $dir53/history.txt", $dir53);
+	$wcrev = $project->git('log -n 1 --pretty="%h"', $dir53);
+	$wcdate = $project->git('log -n 1 --pretty="%cd" --date=short', $dir53);
+	$project->write("$dir53/version.txt", "Nette Framework $label (revision $wcrev released on $wcdate)");
+
+	// remove git files
+	foreach (Finder::findDirectories(".git")->from($dir53)->childFirst() as $file) {
+		$project->delete($file);
+	}
+	foreach (Finder::findFiles(".git*")->from($dir53) as $file) {
+		$project->delete($file);
+	}
+
+	// expand $WCREV$ and $WCDATE$
+	foreach (Finder::findFiles('*.php', '*.txt')->from($dir53)->exclude('3rdParty') as $file) {
+		$project->replace($file, array(
+			'#\$WCREV\$#' => $wcrev,
+			'#\$WCDATE\$#' => $wcdate,
+		));
+	}
 
 	// rename *.md and delete some files
 	foreach (Finder::findFiles('*.md')->from($dir53) as $file) {
@@ -121,42 +153,6 @@ $project->main = function($tag = 'master', $label = '1.0') use ($project) {
 
 	$project->zip("$distDir/../pear/$dirPear.tgz", array($dirPear, "package.xml"));
 	$project->delete("package.xml");
-};
-
-
-
-$project->exportGit = function($dir, $tag = NULL) use ($project) {
-	$project->delete($dir);
-	$project->gitClone('git://github.com/nette/nette.git', $tag, $dir);
-	$project->gitClone('git://github.com/nette/examples.git', $tag, "$dir/examples");
-	$project->gitClone('git://github.com/nette/sandbox.git', $tag, "$dir/sandbox");
-	$project->gitClone('git://github.com/nette/tools.git', NULL, "$dir/tools");
-
-	if (PHP_OS === 'WINNT') {
-		$project->exec("attrib -H $dir\.htaccess* /s /d");
-		$project->exec("attrib -R $dir\* /s /d");
-	}
-
-	// create history.txt
-	$project->git("log -n 500 --pretty=\"%cd (%h): %s\" --date-order --date=short > $dir/history.txt", $dir);
-
-	// expand $WCREV$ and $WCDATE$
-	$wcrev = $project->git('log -n 1 --pretty="%h"', $dir);
-	$wcdate = $project->git('log -n 1 --pretty="%cd" --date=short', $dir);
-	foreach (Finder::findFiles('*.php', '*.txt')->from($dir)->exclude('3rdParty') as $file) {
-		$project->replace($file, array(
-			'#\$WCREV\$#' => $wcrev,
-			'#\$WCDATE\$#' => $wcdate,
-		));
-	}
-
-	// remove git files
-	foreach (Finder::findDirectories(".git")->from($dir)->childFirst() as $file) {
-		$project->delete($file);
-	}
-	foreach (Finder::findFiles(".git*")->from($dir) as $file) {
-		$project->delete($file);
-	}
 };
 
 
