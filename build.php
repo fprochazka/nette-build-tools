@@ -49,6 +49,8 @@ $project->main = function($tag = 'master', $label = '1.0') use ($project) {
 	$project->gitClone('git://github.com/nette/examples.git', $tag, "$dir53/examples");
 	$project->gitClone('git://github.com/nette/sandbox.git', $tag, "$dir53/sandbox");
 	$project->gitClone('git://github.com/nette/tools.git', NULL, "$dir53/tools");
+	$project->gitClone('git://github.com/nette/tester.git', NULL, "$dir53/tools/Tester");
+	$project->gitClone('git://github.com/dg/ftp-deployment.git', NULL, "$dir53/tools/FTP-deployment");
 
 	if (PHP_OS === 'WINNT') {
 		$project->exec("attrib -H $dir53\.htaccess* /s /d");
@@ -84,6 +86,8 @@ $project->main = function($tag = 'master', $label = '1.0') use ($project) {
 	$project->delete("$dir53/sandbox/license.txt");
 	$project->delete("$dir53/examples/license.txt");
 	$project->delete("$dir53/tools/license.txt");
+	$project->delete("$dir53/tools/FTP-deployment/license.txt");
+	$project->delete("$dir53/tools/Tester/license.txt");
 	$project->delete("$dir53/composer.json");
 	$project->delete("$dir53/.travis.yml");
 	$project->copy("$dir53/client-side/forms/netteForms.js", "$dir53/sandbox/www/js/netteForms.js");
@@ -169,7 +173,7 @@ $project->buildPackage = function($dir, $package = '5.3') use ($project) {
 		));
 	}
 
-	foreach (Finder::findFiles('*.php', '*.phpt', '*.phpc', '*.inc', '*.phtml', '*.latte', '*.neon')->from($dir)->exclude('www/adminer') as $file) {
+	foreach (Finder::findFiles('*.php', '*.phpt', '*.phpc', '*.inc', '*.phtml', '*.latte', '*.neon')->from($dir)->exclude('www/adminer', 'tools') as $file) {
 		$project->{"convert$package"}($file, TRUE);
 	}
 	$project->netteLoader("$dir/Nette");
@@ -186,7 +190,7 @@ $project->lint = function($dir, $phpExecutable) use ($project) {
 	// try run
 	$project->php("$dir/Nette-minified/nette.min.php", $phpExecutable);
 
-	foreach (Finder::findFiles('*.php', '*.phpt')->from($dir) as $file) {
+	foreach (Finder::findFiles('*.php', '*.phpt')->from($dir)->exclude('tools') as $file) {
 		$project->phpLint($file, $phpExecutable);
 	}
 };
