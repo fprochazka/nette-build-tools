@@ -128,11 +128,6 @@ $project->main = function($tag = 'master', $label = '1.0') use ($project) {
 	$project->apiGen("$dir52p/Nette", "$dir52p/API-reference", $apiGenConfig, "Nette Framework $label (for PHP 5.2, prefixed) API");
 	$project->apiGen("$dir52n/Nette", "$dir52n/API-reference", $apiGenConfig, "Nette Framework $label (for PHP 5.2, un-prefixed) API");
 
-	// create archives
-	if ($tag === 'master') {
-		$project->zip("$distDir/../snapshots/NetteFramework-{$label}-(".date('Y-m-d').").7z", array($dir53, $dir52p, $dir52n));
-	}
-
 	$project->zip("$distDir/$dir53.zip", $dir53);
 	$project->zip("$distDir/$dir52p.zip", $dir52p);
 	$project->zip("$distDir/$dir52n.zip", $dir52n);
