@@ -17,6 +17,7 @@ return array(
 	'Nette\DateTime' => 'DateTime53',
 	'Nette\ComponentModel\IContainer' => 'IComponentContainer',
 	'Nette\ComponentModel\Container' => 'ComponentContainer',
+	'Nette\Diagnostics\Dumper' => 'DebugDumper',
 	'Nette\Diagnostics\Helpers' => 'DebugHelpers',
 	'Nette\Diagnostics\Bar' => 'DebugBar',
 	'Nette\Diagnostics\BlueScreen' => 'DebugBlueScreen',
@@ -84,4 +85,9 @@ return array(
 	'Nette\Utils\PhpGenerator\Method' => 'PhpMethod',
 	'Nette\Utils\PhpGenerator\Parameter' => 'PhpParameter',
 	'Nette\Utils\PhpGenerator\Property' => 'PhpProperty',
+	'Nette\PhpGenerator\ClassType' => 'PhpClassType',
+	'Nette\PhpGenerator\Helpers' => 'PhpHelpers',
+	'Nette\PhpGenerator\Method' => 'PhpMethod',
+	'Nette\PhpGenerator\Parameter' => 'PhpParameter',
+	'Nette\PhpGenerator\Property' => 'PhpProperty',
 );
