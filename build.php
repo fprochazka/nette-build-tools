@@ -90,7 +90,7 @@ $project->main = function($tag = 'master', $label = '1.0') use ($project) {
 	$project->delete("$dir53/tools/Tester/license.txt");
 	$project->delete("$dir53/composer.json");
 	$project->delete("$dir53/.travis.yml");
-	$project->copy("$dir53/client-side/forms/netteForms.js", "$dir53/sandbox/www/js/netteForms.js");
+	$project->copy(is_file("$dir53/client-side/netteForms.js") ? "$dir53/client-side/netteForms.js" : "$dir53/client-side/forms/netteForms.js", "$dir53/sandbox/www/js/netteForms.js");
 
 	// build specific packages
 	$project->delete($dir52p);
