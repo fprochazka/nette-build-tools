@@ -165,6 +165,7 @@ $project->buildPackage = function($dir, $package = '5.3') use ($project) {
 	} else {
 		$project->replace("$dir/tools/Requirements-Checker/checker.php", array(
 			'#5\.2\.0#' => '5.3.0',
+			'#__DIR__#' => 'dirname(__FILE__)',
 		));
 	}
 
