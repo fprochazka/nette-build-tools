@@ -46,6 +46,7 @@ class Project
 
 		restore_error_handler();
 		$this->log('Total time: ' . number_format(microtime(TRUE) - $time, 1, '.', ' ') . ' seconds');
+		return empty($e);
 	}
 
 

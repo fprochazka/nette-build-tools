@@ -54,4 +54,4 @@ require $buildFile;
 // run
 $target = isset($options['t']) ? $options['t'] : 'main';
 $args = isset($options['a']) ? (array) $options['a'] : array();
-$project->run($target, $args);
+exit($project->run($target, $args) ? 0 : 1);
