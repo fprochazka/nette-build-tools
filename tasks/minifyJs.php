@@ -49,7 +49,7 @@ $project->minifyJs = function(SplFileInfo $file) use ($project) {
 
 		} else { // CSS compressor
 			$s = preg_replace('#/\*.*?\*/#s', '', $s); // remove comments
-			$s = preg_replace('#\s+#', ' ', $s); // compress space
+			$s = preg_replace('#[ \t\r\n]+#', ' ', $s); // compress space, ignore hard space
 			$s = preg_replace('# ([^0-9a-z.\#*-])#i', '$1', $s);
 			$s = preg_replace('#([^0-9a-z%)]) #i', '$1', $s);
 			$s = str_replace(';}', '}', $s); // remove leading semicolon
