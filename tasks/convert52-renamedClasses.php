@@ -90,4 +90,9 @@ return array(
 	'Nette\PhpGenerator\Method' => 'PhpMethod',
 	'Nette\PhpGenerator\Parameter' => 'PhpParameter',
 	'Nette\PhpGenerator\Property' => 'PhpProperty',
+
+	'NetteModule\ErrorPresenter' => 'Nette_ErrorPresenter',
+	'NetteModule\MicroPresenter' => 'Nette_MicroPresenter',
+
+	'Tester\Assert' => '\Assert',
 );
