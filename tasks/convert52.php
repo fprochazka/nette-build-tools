@@ -57,21 +57,19 @@ $project->convert52 = function(SplFileInfo $file, $prefixed) {
 			? $uses[$segment] . substr($class, strlen($segment))
 			: $namespace . '\\' . $class;
 		$full = ltrim($full, '\\');
+
 		$short = substr($full, strrpos("\\$full", '\\'));
-
-		if (substr($full, 0, 6) === 'Nette\\') {
-			if (isset($renamed[$full])) {
-				$short = $renamed[$full];
-			}
-			if ($prefixed && preg_match('#^(?!I[A-Z])[A-Z]#', $short)) {
-				return "N$short";
-
-			} else {
-				return ltrim($short, '\\');
-			}
-		} else {
-			return $short;
+		if (isset($renamed[$full])) {
+			$short = $renamed[$full];
 		}
+
+		if (substr($full, 0, 7) === 'Tester\\' && preg_match('#^\w#', $short)) {
+			$short = 'Tester' . $short;
+
+		} elseif (substr($full, 0, 6) === 'Nette\\' && $prefixed && preg_match('#^(?!I[A-Z])[A-Z]#', $short)) {
+			$short = "N$short";
+		}
+		return ltrim($short, '\\');
 	};
 
 	while (($token = $parser->fetch()) !== FALSE) {
