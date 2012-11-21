@@ -33,6 +33,8 @@ $project->convert52 = function(SplFileInfo $file, $prefixed) {
 	$s = str_replace('@Nette\Database\Connection', $prefixed ? '@\NConnection' : '@\Connection', $s); // CD-collection\app\config.neon
 	$s = str_replace(': Nette\Database\Connection', $prefixed ? ': NConnection' : ': Connection', $s); // CD-collection\app\config.neon
 	$s = str_replace(', Nette\Database\Reflection\DiscoveredReflection', $prefixed ? ', NDiscoveredReflection' : ', DiscoveredReflection', $s); // CD-collection\app\config.neon
+	$s = str_replace('Model\Authenticator', 'Authenticator', $s); // sandbox\app\config.neon
+	$s = str_replace('App\RouterFactory', 'RouterFactory', $s); // sandbox\app\config.neon
 	$s = str_replace('$application->onStartup[] = function() {', '{', $s); // bootstrap.php
 	$s = str_replace('$application->onStartup[] = function() use ($application) {', '{', $s); // bootstrap.php
 	$s = str_replace('$configurator::', $prefixed ? 'NConfigurator::' : 'Configurator::', $s); // bootstrap.php in comment
@@ -149,7 +151,7 @@ $project->convert52 = function(SplFileInfo $file, $prefixed) {
  				$body .= $parser->fetchUntil('}') . '}';
 			} while ($parser->fetch() && !$parser->isNext(',', ';', ')'));
 
-			if (strpos($body, 'function(')) {
+			if (preg_match('#\Wfunction\s*\(#', $body)) {
 				throw new Exception("Nested closure in $file");
 			}
 
