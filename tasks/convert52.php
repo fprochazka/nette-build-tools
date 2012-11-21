@@ -141,9 +141,9 @@ $project->convert52 = function(SplFileInfo $file, $prefixed) {
 			$parser->fetch(')');
  			if ($use = $parser->fetch(T_USE)) {
  				$parser->fetch('(');
-				$token .= 'extract(NCFix::$vars[\'.NCFix::uses(array('
+				$token .= 'extract($GLOBALS[0][\'.array_push($GLOBALS[0], array('
 					. preg_replace('#&?\s*\$([^,\s]+)#', "'\$1'=>\$0", $parser->fetchUntil(')'))
-					. ')).\'], EXTR_REFS);';
+					. ')).\'-1], EXTR_REFS);';
 				$parser->fetch(')');
  			}
 			$body = '';
@@ -163,18 +163,7 @@ $project->convert52 = function(SplFileInfo $file, $prefixed) {
 	// closure support
 	if ($file->getFilename() === 'loader.php') {
 		$s = str_replace("define('NETTE'", '
-/** @internal */
-class NCFix
-{
-	static $vars = array();
-
-	static function uses($args)
-	{
-		self::$vars[] = $args;
-		return count(self::$vars)-1;
-	}
-}
-
+empty($GLOBALS[0]) && $GLOBALS[0] = array();
 define(\'NETTE\'', $s);
 	}
 
