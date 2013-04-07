@@ -54,7 +54,6 @@ $project->main = function($tag = 'master', $label = '2.0') use ($project) {
 	$project->gitClone('git://github.com/nette/sandbox.git', $tag, "$dir53/sandbox");
 	$project->gitClone('git://github.com/nette/tools.git', preg_replace('#^\D*(\d+\.\d+).*\z#', 'release-$1.x', $tag), "$dir53/tools");
 	$project->gitClone('git://github.com/nette/tester.git', NULL, "$dir53/tools/Tester");
-	$project->gitClone('git://github.com/dg/ftp-deployment.git', NULL, "$dir53/tools/FTP-deployment");
 
 	if (PHP_OS === 'WINNT') {
 		$project->exec("attrib -H $dir53\.htaccess* /s /d");
@@ -90,7 +89,6 @@ $project->main = function($tag = 'master', $label = '2.0') use ($project) {
 	$project->delete("$dir53/sandbox/license.txt");
 	$project->delete("$dir53/examples/license.txt");
 	$project->delete("$dir53/tools/license.txt");
-	$project->delete("$dir53/tools/FTP-deployment/license.txt");
 	$project->delete("$dir53/tools/Tester/license.txt");
 	$project->delete("$dir53/composer.json");
 	$project->delete("$dir53/.travis.yml");
