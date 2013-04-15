@@ -25,7 +25,7 @@ $project->convert52 = function(SplFileInfo $file, $prefixed) {
 	$s = str_replace('static::', 'self::', $s);
 	$s = str_replace('get_called_class()', '__CLASS__', $s);
 	$s = str_replace('E_USER_DEPRECATED', 'E_USER_WARNING', $s);
-	$s = preg_replace('#(?<=[[(= ])([^()\s]+(?:\([^()]+\))?) \?: #', '($tmp=$1) ? $tmp : ', $s); // expand ternary short cut
+	$s = preg_replace('#(?<=[[(= ])([^()\s]+(?:\([^()]*\))?) \?: #', '($tmp=$1) ? $tmp : ', $s); // expand ternary short cut
 	$s = preg_replace('#/\\*5\.2\*\s*(.*?)\s*\\*/#s', '$1', $s); // uncomment /*5.2* */
 	$s = preg_replace('#/\\*\\*/.*?/\\*\\*/\\s*#s', '', $s);  // remove /**/ ... /**/
 	$s = preg_replace("#'NETTE_PACKAGE', '.*'#", "'NETTE_PACKAGE', 'PHP 5.2" . ($prefixed ? ' prefixed' : '') . "'", $s); // loader.php
