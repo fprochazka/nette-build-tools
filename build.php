@@ -95,9 +95,9 @@ $project->main = function($tag = 'master', $label = '2.0') use ($project) {
 	$project->delete("$dir53/composer.json");
 	$project->delete("$dir53/.travis.yml");
 	$project->copy(is_file("$dir53/client-side/netteForms.js") ? "$dir53/client-side/netteForms.js" : "$dir53/client-side/forms/netteForms.js", "$dir53/sandbox/www/js/netteForms.js");
-	$project->replace("$dir53/tests/run-tests.sh", array('#tools/nette/tester#' => 'tools/Tester'));
-	$project->replace("$dir53/tests/RunTests.bat", array('#tools\\\\nette\\\\tester#' => 'tools\Tester'));
-	$project->replace("$dir53/tests/Nette/bootstrap.php", array('#tools/autoload.php#' => 'tools/Tester/Tester/bootstrap.php', '#Tester\\\\Helpers::setup\(\);#' => "require __DIR__ . '/../../Nette/loader.php';"));
+	$project->replace("$dir53/tests/run-tests.sh", array('#(vendor|tools)/nette/tester#' => 'tools/Tester'));
+	$project->replace("$dir53/tests/RunTests.bat", array('#(vendor|tools)\\\\nette\\\\tester#' => 'tools\Tester'));
+	$project->replace("$dir53/tests/Nette/bootstrap.php", array('#(vendor|tools)/autoload.php#' => 'tools/Tester/Tester/bootstrap.php', '#Tester\\\\Helpers::setup\(\);#' => "require __DIR__ . '/../../Nette/loader.php';"));
 
 	// build specific packages
 	$project->delete($dir52p);
