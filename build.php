@@ -6,7 +6,7 @@
  * Call task 'main' to build a full release.
  * The release built will be stored in 'dist' directory.
  *
- * Can be used for version 2.0 or higher.
+ * Can be used for version 2.1 or higher.
  */
 
 require 'tools/Nette/nette.min.php';
