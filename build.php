@@ -35,7 +35,11 @@ require 'tasks/php.php';
 require 'tasks/zip.php';
 
 
-$project->main = function($tag = 'master', $label = '1.0') use ($project) {
+/**
+ * @param string  Git branch or tag
+ * @param string  human readable version name
+ */
+$project->main = function($tag = 'master', $label = '2.0') use ($project) {
 	$project->log("Building {$label}");
 
 	$dir53 = "NetteFramework-{$label}-PHP5.3";
