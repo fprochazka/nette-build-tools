@@ -34,7 +34,7 @@ $project->git = function($cmd, $dir = NULL) use ($project) {
 $project->gitClone = function($url, $tag = NULL, $dir = NULL) use ($project) {
 	$project->log("Clonnig GIT repository $url");
 
-	$project->exec(escapeshellarg($project->gitExecutable) . " clone $url"
+	$project->exec(escapeshellarg($project->gitExecutable) . " clone --recursive $url"
 		. ($dir ? ' ' . escapeshellarg($dir) : '')
 	);
 
