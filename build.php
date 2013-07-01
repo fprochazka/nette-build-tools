@@ -52,6 +52,7 @@ $project->main = function($tag = 'master', $label = '2.0') use ($project) {
 	$project->gitClone('git://github.com/nette/nette.git', $tag, $dir53);
 	$project->gitClone('git://github.com/nette/examples.git', $tag, "$dir53/examples");
 	$project->gitClone('git://github.com/nette/sandbox.git', $tag, "$dir53/sandbox");
+	$project->gitClone('git://github.com/dg/adminer-custom.git', NULL, "$dir53/sandbox/libs/dg/adminer-custom");
 	$project->gitClone('git://github.com/nette/tools.git', preg_replace('#^\D*(\d+\.\d+).*\z#', 'release-$1.x', $tag), "$dir53/tools");
 	$project->gitClone('git://github.com/nette/tester.git', NULL, "$dir53/tools/Tester");
 	$project->gitClone('git://github.com/dg/ftp-deployment.git', NULL, "$dir53/tools/FTP-deployment");
@@ -172,7 +173,7 @@ $project->buildPackage = function($dir, $package = '5.3') use ($project) {
 		$project->replace("$dir/tools/Requirements-Checker/checker.php", array('#5\.3\.0#' => '5.2.0'));
 	}
 
-	foreach (Finder::findFiles('*.php', '*.phpt', '*.phpc', '*.inc', '*.phtml', '*.latte', '*.neon')->from($dir)->exclude('www/adminer', 'tools') as $file) {
+	foreach (Finder::findFiles('*.php', '*.phpt', '*.phpc', '*.inc', '*.phtml', '*.latte', '*.neon')->from($dir)->exclude('adminer-custom', 'tools') as $file) {
 		$project->{"convert$package"}($file, TRUE);
 	}
 	$project->netteLoader("$dir/Nette");
