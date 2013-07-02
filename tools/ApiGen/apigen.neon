@@ -21,8 +21,6 @@ title: 'Nette Framework'
 baseUrl: 'http://api.nette.org/2.0'
 # Google Custom Search ID
 googleCseId: '011549293477758430224:vxofa9ufnhc'
-# Google Custom Search label
-googleCseLabel: 'api'
 # Google Analytics tracking code
 googleAnalytics:
 # Template config file
