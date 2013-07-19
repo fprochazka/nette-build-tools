@@ -171,14 +171,16 @@ $project->buildPackage = function($dir, $package = '5.3') use ($project) {
 		$project->delete("$dir/examples/Micro-tweet");
 		$project->delete("$dir/tools/Code-Migration");
 		$project->replace("$dir/tools/Requirements-Checker/checker.php", array('#5\.3\.0#' => '5.2.0'));
+		$project->delete("$dir/tests");
+		$project->delete("$dir/tools/Tester");
 	}
 
-	foreach (Finder::findFiles('*.php', '*.phpt', '*.phpc', '*.inc', '*.phtml', '*.latte', '*.neon')->from($dir)->exclude('adminer-custom', 'tools') as $file) {
+	foreach (Finder::findFiles('*.php', '*.phpt', '*.phtml', '*.latte', '*.neon')->from($dir)->exclude('adminer-custom', 'tools') as $file) {
 		$project->{"convert$package"}($file, TRUE);
 	}
 	$project->netteLoader("$dir/Nette");
 
-	foreach (Finder::findFiles('*.php')->from("$dir/tools/Tester", "$dir/tools/Requirements-Checker") as $file) {
+	foreach (Finder::findFiles('*.php')->from("$dir/tools/Requirements-Checker") as $file) {
 		$project->{"convert$package"}($file, TRUE);
 	}
 	// shrink JS & CSS
