@@ -194,6 +194,9 @@ $project->lint = function($dir, $phpExecutable) use ($project) {
 	$project->php("$dir/Nette-minified/nette.min.php", $phpExecutable);
 
 	foreach (Finder::findFiles('*.php', '*.phpt')->from($dir)->exclude('tools') as $file) {
+		if (strpos(file_get_contents($file), '@phpversion 5.4')) {
+			continue;
+		}
 		$project->phpLint($file, $phpExecutable);
 	}
 };
