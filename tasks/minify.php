@@ -82,6 +82,8 @@ class ShrinkPHP
 	{
 		$this->files[realpath($file)] = TRUE;
 		$content = file_get_contents($file);
+		$content = str_replace("__DIR__ . '/../", "__DIR__ . '/", $content);
+		$content = str_replace('dirname(__DIR__)', '__DIR__', $content);
 		$this->addContent($content, dirname($file));
 	}
 
@@ -92,7 +94,7 @@ class ShrinkPHP
 
 		if ($this->useNamespaces) { // find namespace
 			$hasNamespace = FALSE;
-			foreach ($tokens as $num => $token)	{
+			foreach ($tokens as $num => $token) {
 				if ($token[0] === T_NAMESPACE) {
 					$hasNamespace = TRUE;
 					break;
