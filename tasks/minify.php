@@ -82,8 +82,6 @@ class ShrinkPHP
 	{
 		$this->files[realpath($file)] = TRUE;
 		$content = file_get_contents($file);
-		// special handling for Connection.php && Statement.php
-		$content = preg_replace('#class \S+ extends \\\\?PDO.+#s', "if (class_exists('PDO')){ $0 }", $content);
 		$this->addContent($content, dirname($file));
 	}
 
@@ -193,7 +191,6 @@ class ShrinkPHP
 				} else { // T_REQUIRE_ONCE, T_REQUIRE, T_INCLUDE, T_INCLUDE_ONCE
 					$newFile = strtr($expr, array(
 						'__DIR__' => "'" . addcslashes($dir, '\\\'') . "'",
-						'dirname(__FILE__)' => "'" . addcslashes($dir, '\\\'') . "'",
 					));
 					$newFile = @eval('return ' . $newFile . ';');
 
