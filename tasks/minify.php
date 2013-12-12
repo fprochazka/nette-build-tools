@@ -27,9 +27,6 @@ $project->minify = function($source, $dest, $useNamespaces = TRUE) use ($project
 	// put loader.php without loading part
 	$loader = file_get_contents("$source/loader.php");
 	$loader = preg_split('#^(require|.*NetteLoader::).*;\s*#m', $loader, -1, PREG_SPLIT_NO_EMPTY);
-	if (count($loader) !== 2) {
-		throw new Exception('Unable split loader.php.');
-	}
 	$shrink->addContent($loader[0]);
 
 	// put all files
@@ -41,9 +38,11 @@ $project->minify = function($source, $dest, $useNamespaces = TRUE) use ($project
 		}
 	}
 
-	$shrink->addContent("<?php $loader[1]");
-	if (is_file("$source/Diagnostics/shortcuts.php")) {
-		$shrink->addFile("$source/Diagnostics/shortcuts.php");
+	if (isset($loader[1])) {
+		$shrink->addContent("<?php $loader[1]");
+	}
+	if (is_file($tmp = "$source/Diagnostics/shortcuts.php") || is_file($tmp = "$source/common/shortcuts.php")) {
+		$shrink->addFile($tmp);
 	}
 
 	$content = $shrink->getOutput();

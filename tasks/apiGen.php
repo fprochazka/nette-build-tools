@@ -14,5 +14,5 @@
 $project->apiGen = function($source, $dest, $config, $title) use ($project) {
 	$project->log("Generating API documentation for $source");
 	$project->php(escapeshellarg($project->apiGenExecutable) . ' -s ' . escapeshellarg($source)
-		 . ' -d ' . escapeshellarg($dest) . ' -c ' . escapeshellarg($config) . ' --title ' . escapeshellarg($title));
+		. ' -d ' . escapeshellarg($dest) . ' -c ' . escapeshellarg($config) . ' --title ' . escapeshellarg($title));
 };
