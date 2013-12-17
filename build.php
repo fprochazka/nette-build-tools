@@ -101,12 +101,12 @@ $project->main = function($tag = 'master', $label = '2.0') use ($project) {
 		$project->minifyJs($file);
 	}
 
-	// build minified version
-	$project->minify("$dir/Nette", "$dir/Nette-minified/nette.min.php", TRUE);
+	// build phar version
+	$project->minify("$dir/Nette", "$dir/Nette-minified/nette.phar");
 
 	// lint & try run PHP files
 	$project->log("Linting files");
-	$project->php("$dir/Nette-minified/nette.min.php", $project->phpExecutable); // try run
+	$project->php("$dir/Nette-minified/nette.phar", $project->phpExecutable); // try run
 
 	foreach (Finder::findFiles('*.php', '*.phpt')->from($dir)->exclude('tools') as $file) {
 		if (strpos(file_get_contents($file), '@phpversion 5.4')) {
