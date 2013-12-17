@@ -47,7 +47,7 @@ if (false === strpos('@php_dir@', '@php_dir')) {
 		get_include_path()
 	);
 
-	@include __DIR__ . '/libs/Nette/Nette/nette.min.php';
+	@include __DIR__ . '/libs/Nette/nette.phar';
 	@include __DIR__ . '/libs/Texy/texy/texy.php';
 
 	spl_autoload_register(function($class) {
