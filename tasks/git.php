@@ -32,13 +32,9 @@ $project->git = function($cmd, $dir = NULL) use ($project) {
  * @depend $project->gitExecutable
  */
 $project->gitClone = function($url, $tag = NULL, $dir = NULL) use ($project) {
-	$project->log("Clonnig GIT repository $url");
+	$project->log("Clonnig GIT repository $url $tag");
 
-	$project->exec(escapeshellarg($project->gitExecutable) . " clone --recursive $url"
+	$project->exec(escapeshellarg($project->gitExecutable) . " clone --depth 1 --recursive $url" . ($tag ? " --branch $tag" : '')
 		. ($dir ? ' ' . escapeshellarg($dir) : '')
 	);
-
-	if ($tag) {
-		$project->git("--work-tree $dir checkout $tag", $dir);
-	}
 };
