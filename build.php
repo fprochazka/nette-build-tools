@@ -62,8 +62,7 @@ $project->main = function($tag = 'master', $label = '2.0') use ($project) {
 		$project->exec("attrib -R $dir53\* /s /d");
 	}
 
-	// create history.txt, version.txt
-	$project->git("log -n 500 --pretty=\"%cd (%h): %s\" --date-order --date=short > $dir53/history.txt", $dir53);
+	// create version.txt
 	$wcrev = $project->git('log -n 1 --pretty="%h"', $dir53);
 	$wcdate = $project->git('log -n 1 --pretty="%cd" --date=short', $dir53);
 	$project->write("$dir53/version.txt", "Nette Framework $label (revision $wcrev released on $wcdate)");
