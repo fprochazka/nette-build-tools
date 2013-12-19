@@ -52,7 +52,7 @@ $project->main = function($tag = 'master', $label = '2.0') use ($project) {
 	$project->gitClone('git://github.com/nette/nette.git', $tag, $dir53);
 	$project->gitClone('git://github.com/nette/examples.git', $tag, "$dir53/examples");
 	$project->gitClone('git://github.com/nette/sandbox.git', $tag, "$dir53/sandbox");
-	$project->gitClone('git://github.com/dg/adminer-custom.git', NULL, "$dir53/sandbox/libs/dg/adminer-custom");
+	$project->gitClone('git://github.com/dg/adminer-custom.git', NULL, "$dir53/sandbox/vendor/dg/adminer-custom");
 	$project->gitClone('git://github.com/nette/tools.git', preg_replace('#^\D*(\d+\.\d+).*\z#', 'release-$1.x', $tag), "$dir53/tools");
 	$project->gitClone('git://github.com/nette/tester.git', NULL, "$dir53/tools/Tester");
 	$project->gitClone('git://github.com/dg/ftp-deployment.git', NULL, "$dir53/tools/FTP-deployment");
@@ -125,9 +125,9 @@ $project->main = function($tag = 'master', $label = '2.0') use ($project) {
 	$project->lint($dir52n, $project->php52Executable);
 
 	// copy Nette to submodules
-	$project->copy("$dir53/Nette", "$dir53/sandbox/libs/Nette");
-	$project->copy("$dir52p/Nette", "$dir52p/sandbox/libs/Nette");
-	$project->copy("$dir52n/Nette", "$dir52n/sandbox/libs/Nette");
+	$project->copy("$dir53/Nette", "$dir53/sandbox/vendor/nette/nette/Nette");
+	$project->copy("$dir52p/Nette", "$dir52p/sandbox/vendor/nette/nette/Nette");
+	$project->copy("$dir52n/Nette", "$dir52n/sandbox/vendor/nette/nette/Nette");
 
 	// build API doc
 	$apiGenConfig = dirname($project->apiGenExecutable) . '/apigen.neon';
