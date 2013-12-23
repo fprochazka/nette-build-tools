@@ -53,7 +53,7 @@ $project->main = function($tag = 'master', $label = '2.0') use ($project) {
 	$project->gitClone('git://github.com/nette/examples.git', $tag, "$dir53/examples");
 	$project->gitClone('git://github.com/nette/sandbox.git', $tag, "$dir53/sandbox");
 	$project->gitClone('git://github.com/dg/adminer-custom.git', NULL, "$dir53/sandbox/vendor/dg/adminer-custom");
-	$project->gitClone('git://github.com/nette/tools.git', preg_replace('#^\D*(\d+\.\d+).*\z#', 'release-$1.x', $tag), "$dir53/tools");
+	$project->gitClone('git://github.com/nette/tools.git', preg_replace('#^\D*(\d+\.\d+).*\z#', 'v$1', $tag), "$dir53/tools");
 	$project->gitClone('git://github.com/nette/tester.git', NULL, "$dir53/tools/Tester");
 	$project->gitClone('git://github.com/dg/ftp-deployment.git', NULL, "$dir53/tools/FTP-deployment");
 
