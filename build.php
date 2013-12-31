@@ -54,7 +54,6 @@ $project->main = function($tag = 'master', $label = '2.0') use ($project) {
 	$project->gitClone('git://github.com/nette/sandbox.git', $tag, "$dir53/sandbox");
 	$project->gitClone('git://github.com/dg/adminer-custom.git', NULL, "$dir53/sandbox/vendor/dg/adminer-custom");
 	$project->gitClone('git://github.com/nette/tools.git', preg_replace('#^\D*(\d+\.\d+).*\z#', 'v$1', $tag), "$dir53/tools");
-	$project->gitClone('git://github.com/nette/tester.git', NULL, "$dir53/tools/Tester");
 	$project->gitClone('git://github.com/dg/ftp-deployment.git', NULL, "$dir53/tools/FTP-deployment");
 
 	if (PHP_OS === 'WINNT') {
@@ -75,6 +74,8 @@ $project->main = function($tag = 'master', $label = '2.0') use ($project) {
 		$project->delete($file);
 	}
 
+	$project->delete("$dir53/tests");
+
 	// expand $WCREV$ and $WCDATE$
 	foreach (Finder::findFiles('*.php', '*.txt')->from($dir53)->exclude('3rdParty') as $file) {
 		$project->replace($file, array(
@@ -91,13 +92,9 @@ $project->main = function($tag = 'master', $label = '2.0') use ($project) {
 	$project->delete("$dir53/examples/license.txt");
 	$project->delete("$dir53/tools/license.txt");
 	$project->delete("$dir53/tools/FTP-deployment/license.txt");
-	$project->delete("$dir53/tools/Tester/license.txt");
 	$project->delete("$dir53/composer.json");
 	$project->delete("$dir53/.travis.yml");
 	$project->copy(is_file("$dir53/client-side/netteForms.js") ? "$dir53/client-side/netteForms.js" : "$dir53/client-side/forms/netteForms.js", "$dir53/sandbox/www/js/netteForms.js");
-	$project->replace("$dir53/tests/run-tests.sh", array('#(vendor|tools)/nette/tester#' => 'tools/Tester'));
-	$project->replace("$dir53/tests/RunTests.bat", array('#(vendor|tools)\\\\nette\\\\tester#' => 'tools\Tester'));
-	$project->replace("$dir53/tests/Nette/bootstrap.php", array('#(vendor|tools)/autoload.php#' => 'tools/Tester/Tester/bootstrap.php', '#Tester\\\\Helpers::setup\(\);#' => "require __DIR__ . '/../../Nette/loader.php';"));
 
 	// build specific packages
 	$project->delete($dir52p);
@@ -170,8 +167,6 @@ $project->buildPackage = function($dir, $package = '5.3') use ($project) {
 		$project->delete("$dir/examples/Micro-tweet");
 		$project->delete("$dir/tools/Code-Migration");
 		$project->replace("$dir/tools/Requirements-Checker/checker.php", array('#5\.3\.0#' => '5.2.0'));
-		$project->delete("$dir/tests");
-		$project->delete("$dir/tools/Tester");
 	}
 
 	foreach (Finder::findFiles('*.php', '*.phpt', '*.phtml', '*.latte', '*.neon')->from($dir)->exclude('adminer-custom', 'tools') as $file) {
