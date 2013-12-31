@@ -49,7 +49,6 @@ $project->main = function($tag = 'master', $label = '2.0') use ($project) {
 	$project->gitClone('git://github.com/nette/sandbox.git', $tag, "$dir/sandbox");
 	$project->gitClone('git://github.com/dg/adminer-custom.git', NULL, "$dir/sandbox/vendor/dg/adminer-custom");
 	$project->gitClone('git://github.com/nette/tools.git', preg_replace('#^\D*(\d+\.\d+).*\z#', 'v$1', $tag), "$dir/tools");
-	$project->gitClone('git://github.com/nette/tester.git', NULL, "$dir/tools/Tester");
 
 	if (PHP_OS === 'WINNT') {
 		$project->exec("attrib -H $dir\.htaccess* /s /d");
@@ -69,6 +68,8 @@ $project->main = function($tag = 'master', $label = '2.0') use ($project) {
 		$project->delete($file);
 	}
 
+	$project->delete("$dir/tests");
+
 	// expand $WCREV$ and $WCDATE$
 	foreach (Finder::findFiles('*.php', '*.txt')->from($dir)->exclude('3rdParty') as $file) {
 		$project->replace($file, array(
@@ -84,13 +85,9 @@ $project->main = function($tag = 'master', $label = '2.0') use ($project) {
 	$project->delete("$dir/sandbox/license.txt");
 	$project->delete("$dir/examples/license.txt");
 	$project->delete("$dir/tools/license.txt");
-	$project->delete("$dir/tools/Tester/license.txt");
 	$project->delete("$dir/composer.json");
 	$project->delete("$dir/.travis.yml");
 	$project->copy(is_file("$dir/client-side/netteForms.js") ? "$dir/client-side/netteForms.js" : "$dir/client-side/forms/netteForms.js", "$dir/sandbox/www/js/netteForms.js");
-	$project->replace("$dir/tests/run-tests.sh", array('#vendor/nette/tester#' => 'tools/Tester'));
-	$project->replace("$dir/tests/RunTests.bat", array('#vendor\\\\nette\\\\tester#' => 'tools\Tester'));
-	$project->replace("$dir/tests/Nette/bootstrap.php", array('#vendor/autoload.php#' => 'tools/Tester/Tester/bootstrap.php', '#Tester\\\\Helpers::setup\(\);#' => "require __DIR__ . '/../../Nette/loader.php';"));
 
 	// build NetteLoader.php
 	$project->netteLoader("$dir/Nette");
